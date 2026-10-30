@@ -1,0 +1,15 @@
+name: Keep clubon.store awake
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: |
+          echo "Keep-alive ping to prevent Render sleep"
+          curl -s -m 20 -o /dev/null -w "health: HTTP %{http_code}\n" https://clubon.store/api/health
